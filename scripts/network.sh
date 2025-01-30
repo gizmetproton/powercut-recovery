@@ -1,27 +1,30 @@
 #!/bin/bash
 
 # Source utility functions
-source "/usr/local/share/powercut/utils.sh"
+source "$(dirname "$0")/utils.sh"
 
 check_network() {
-    print_status "Checking network services..."
-
-    # Check NetworkManager
+    print_status "Checking ship's navigation systems..."
+    
+    # Check if NetworkManager is running
     if ! systemctl is-active --quiet NetworkManager; then
-        print_error "NetworkManager is not running. You may need to run: sudo systemctl restart NetworkManager"
-        return 1
+        print_error "NetworkManager has abandoned ship! Attempting to restart..."
+        sudo systemctl restart NetworkManager
+        sleep 2
+        if ! systemctl is-active --quiet NetworkManager; then
+            print_error "Failed to bring NetworkManager back aboard!"
+            return 1
+        fi
     else
-        print_success "NetworkManager is running"
+        print_success "NetworkManager is standing watch"
     fi
 
-    # Check network connectivity
+    # Check internet connectivity
     if ! ping -c 1 8.8.8.8 >/dev/null 2>&1; then
-        print_error "No internet connectivity. You may need to restart your network interface"
-        print_error "Try: sudo ip link set dev \$(ip route | grep default | awk '{print \$5}') down"
-        print_error "Then: sudo ip link set dev \$(ip route | grep default | awk '{print \$5}') up"
+        print_error "Lost contact with the mainland (no internet)!"
         return 1
     else
-        print_success "Internet connectivity is working"
+        print_success "Ship's communications are operational"
     fi
 
     return 0

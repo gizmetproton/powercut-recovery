@@ -1,33 +1,34 @@
 #!/bin/bash
 
 # Source utility functions
-source "/usr/local/share/powercut/utils.sh"
+source "$(dirname "$0")/utils.sh"
 
 check_display() {
-    print_status "Checking display configuration..."
+    print_status "Checking ship's viewing ports..."
     
     # Check if X server is running
     if ! ps aux | grep -v grep | grep -q Xorg; then
-        print_error "X server not running. You may need to run: sudo systemctl restart display-manager"
+        print_error "Ship's windows are shuttered! X server not running"
+        print_error "Try: sudo systemctl restart display-manager"
         return 1
     else
-        print_success "X server is running"
+        print_success "Ship's windows are crystal clear"
     fi
 
     # Check DISPLAY environment variable
     if [ -z "$DISPLAY" ]; then
-        print_error "DISPLAY variable not set. Setting to :1..."
+        print_error "Lost sight of the display! Setting course to :1..."
         export DISPLAY=:1
     else
-        print_success "DISPLAY variable is set to $DISPLAY"
+        print_success "Display coordinates locked at $DISPLAY"
     fi
 
     # Check XDG_RUNTIME_DIR
     if [ -z "$XDG_RUNTIME_DIR" ]; then
-        print_error "XDG_RUNTIME_DIR not set. Setting it..."
+        print_error "Ship's runtime quarters not found! Setting them up..."
         export XDG_RUNTIME_DIR="/run/user/$(id -u)"
     else
-        print_success "XDG_RUNTIME_DIR is set to $XDG_RUNTIME_DIR"
+        print_success "Ship's runtime quarters established at $XDG_RUNTIME_DIR"
     fi
 
     return 0

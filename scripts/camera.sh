@@ -1,46 +1,34 @@
 #!/bin/bash
 
 # Source utility functions
-source "/usr/local/share/powercut/utils.sh"
+source "$(dirname "$0")/utils.sh"
 
 check_camera() {
-    print_status "Checking Tapo camera connectivity..."
-
-    # Camera details
-    CAMERA_IP="192.168.1.165"
-    CAMERA_PORT="554"
-
+    print_status "Checking crow's nest (camera) status..."
+    
     # Check if camera is reachable
-    if ! ping -c 1 -W 1 $CAMERA_IP >/dev/null 2>&1; then
-        print_error "Cannot reach camera at $CAMERA_IP"
-        print_error "Check if camera is powered on and connected to network"
+    if ! ping -c 1 192.168.1.165 >/dev/null 2>&1; then
+        print_error "Can't spot the crow's nest! Camera not responding!"
         return 1
     else
-        print_success "Camera is reachable"
-        
-        # Check RTSP port
-        if nc -z -w1 $CAMERA_IP $CAMERA_PORT 2>/dev/null; then
-            print_success "Camera RTSP port is accessible"
-        else
-            print_error "Cannot access camera RTSP port"
-            print_error "Check if camera RTSP service is running"
-            return 1
-        fi
+        print_success "Crow's nest spotted on the horizon"
+    fi
+
+    # Check if RTSP port is accessible
+    if ! nc -z 192.168.1.165 554 >/dev/null 2>&1; then
+        print_error "Crow's nest viewing port is blocked! Check port 554"
+        return 1
+    else
+        print_success "Crow's nest viewing port is clear"
     fi
 
     # Check for stuck video processes
-    if pgrep -x mpv >/dev/null; then
-        print_error "Found stuck mpv processes. Killing them..."
-        pkill -9 mpv
+    if pgrep -x "mpv\|ffmpeg\|ffplay\|vlc" >/dev/null; then
+        print_error "Found some scurvy processes! Sending them to Davy Jones..."
+        pkill -9 mpv ffmpeg ffplay vlc
+        print_success "The deck is clear!"
     fi
 
-    for proc in ffmpeg ffplay vlc; do
-        if pgrep -x $proc >/dev/null; then
-            print_error "Found stuck $proc process. Killing it..."
-            pkill -9 $proc
-        fi
-    done
-
-    print_success "Camera checks completed"
+    print_success "All crow's nest systems operational"
     return 0
 } 

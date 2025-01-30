@@ -1,27 +1,37 @@
 #!/bin/bash
 
-MODULE_DIR="/usr/local/share/powercut"
+# Set the module directory
+MODULE_DIR="$(dirname "$0")"
 
+# Source all modules
 source "$MODULE_DIR/utils.sh"
 source "$MODULE_DIR/display.sh"
 source "$MODULE_DIR/network.sh"
 source "$MODULE_DIR/camera.sh"
 source "$MODULE_DIR/system.sh"
 
-echo "=== Power Cut Recovery Script ==="
-echo "This script will check and fix common issues that might occur after a power cut."
-echo "Some operations may require sudo privileges."
-echo
+# Print header
+echo "
+⚡ ☠️  GIZMET'S POWERCUT RECOVERY TOOL ☠️ ⚡
 
+Ahoy! We'll check your ship's systems and fix any damage from the storm.
+Some operations may require captain's privileges (sudo).
+"
+
+# Run all checks
 check_system
 check_display
 check_network
 check_camera
 
-echo
-echo "=== Recovery Complete ==="
-echo "If you are still experiencing issues, you might need to:"
-echo "1. Manually restart your computer"
-echo "2. Check physical network connections"
-echo "3. Verify camera power supply"
-echo "4. Run 'tapo' to test camera feed"
+echo "
+⚡ ☠️  RECOVERY OPERATIONS COMPLETE ☠️ ⚡
+
+If ye still be having troubles, try these:
+1. 🔄 Restart your vessel (reboot)
+2. 🔌 Check your physical connections
+3. 📷 Verify your camera's power
+4. 🎥 Run 'tapo' to test your crow's nest
+
+Fair winds and following seas! ⛵
+" 
