@@ -81,14 +81,7 @@ Example output:
   ⚔️  Ship's engines running smoothly (load: 2.1)
 ```
 
-## 🗺️ Requirements
 
-- Bash shell (your ship's helm)
-- Linux system with NetworkManager (your navigation system)
-- X server (your ship's windows)
-- Standard Unix utilities (your basic toolset)
-
-## 🔧 Customization
 
 The script is modular and easy to customize:
 - `utils.sh` - Utility functions and pretty output
@@ -119,4 +112,18 @@ Gizmet creates pirate-themed tools for the modern Linux sailor. Our tools are:
 - Community driven
 
 ---
-Made with ⚡ by Gizmet - Because every power cut is just another adventure! ☠️
+Made with ⚡ by Gizmet - Because every power cut is just another adventure! ☠️## 🗺️ Requirements
+
+- Bash shell (your ship's helm)
+- Linux system with NetworkManager (your navigation system)
+  - Tested on EndeavourOS/Arch Linux
+  - Should work on other Linux distributions with similar components
+  - May need adjustments for different init systems (script uses systemctl)
+- X server (your ship's windows)
+- Standard Unix utilities (your basic toolset):
+  - nc (netcat)
+  - ping
+  - df
+  - free
+  - systemctl
+  - pkill/pgrep
