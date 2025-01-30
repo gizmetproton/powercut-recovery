@@ -1,0 +1,27 @@
+#!/bin/bash
+
+MODULE_DIR="/usr/local/share/powercut"
+
+source "$MODULE_DIR/utils.sh"
+source "$MODULE_DIR/display.sh"
+source "$MODULE_DIR/network.sh"
+source "$MODULE_DIR/camera.sh"
+source "$MODULE_DIR/system.sh"
+
+echo "=== Power Cut Recovery Script ==="
+echo "This script will check and fix common issues that might occur after a power cut."
+echo "Some operations may require sudo privileges."
+echo
+
+check_system
+check_display
+check_network
+check_camera
+
+echo
+echo "=== Recovery Complete ==="
+echo "If you are still experiencing issues, you might need to:"
+echo "1. Manually restart your computer"
+echo "2. Check physical network connections"
+echo "3. Verify camera power supply"
+echo "4. Run 'tapo' to test camera feed"
